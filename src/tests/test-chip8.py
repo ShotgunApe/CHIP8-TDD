@@ -28,5 +28,22 @@ class TestChip8Instructions(unittest.TestCase):
         emu.pc = 0x1FFF
         self.assertEqual(chip8.chip8(emu), "Jumped to Instruction 0xFFF")
 
+    def test_Input6XNN_OutputSetRegister(self):
+        emu = chip8.ChipEmu()
+        emu.pc = 0x6A00
+        self.assertEqual(chip8.chip8(emu), "Placed Value 0x00 in register va")
+
+        emu.pc = 0x60F5
+        self.assertEqual(chip8.chip8(emu), "Placed Value 0xF5 in register v0")
+
+    def test_Input7XNN_OutputAddedRegister(self):
+        emu = chip8.ChipEmu()
+        emu.pc = 0x72AA
+        self.assertEqual(chip8.chip8(emu), "Value 0xAA in register v2")
+
+        emu.pc = 0x7A99
+        self.assertEqual(chip8.chip8(emu), "Value 0x99 in register va")
+
+
 if __name__ == "__main__":
     unittest.main()
