@@ -19,6 +19,9 @@ class ChipEmu:
 def hex_upper(val: int, length: int) -> str:
     return f"0x{val:0{length}X}"
 
+def update(state: ChipEmu):
+    state.pc += 2
+
 def chip8(state: ChipEmu):
 
     match (state.pc):
