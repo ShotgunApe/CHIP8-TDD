@@ -13,11 +13,16 @@ def main():
     screen = pygame.display.set_mode((64 * SCALE, 32 * SCALE))
     clock = pygame.time.Clock()
 
-    emu = chip8.ChipEmu(pc = START_INSTRUCTION)
+    emu = chip8.ChipEmu()
     running = True
 
     screen.fill("black")
     pygame.display.flip()
+
+    with open('../roms/ibm.ch8', 'rb') as f:
+        rom_data = f.read()
+        for i in range(len(rom_data)):
+            emu.memory[START_INSTRUCTION + i] = rom_data[i]
 
     while running:
         # Check for Input
@@ -25,13 +30,18 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        # Get opcode
+        opcode = (emu.memory[emu.pc] << 8) | emu.memory[emu.pc + 1]
+
         # Change State
-        chip8.chip8(emu)
+        chip8.chip8(emu, opcode)
 
         # Tick
-        chip8.update(emu)
+        if opcode & 0xF000 != 0x1000:
+            chip8.update(emu)
+
         pygame.display.flip()
-        clock.tick(60)  # limits FPS to 60
+        clock.tick(20)  # limits FPS to 60
         
 if __name__ == "__main__":
     main()

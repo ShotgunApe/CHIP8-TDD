@@ -1,3 +1,5 @@
+# DEPRECATED TESTS - USED FOR INITIAL DEVELOPMENT
+
 import unittest
 import sys
 
