@@ -44,6 +44,26 @@ class TestChip8Instructions(unittest.TestCase):
         emu.pc = 0x7A99
         self.assertEqual(chip8.chip8(emu), "Value 0x99 in register va")
 
+    def test_InputANNN_OutputStoredMemoryAddress(self):
+        emu = chip8.ChipEmu()
+        emu.pc = 0xA0E0
+        self.assertEqual(chip8.chip8(emu), "Stored Value 0x00E0 in register I")
+
+        emu.pc = 0xAF30
+        self.assertEqual(chip8.chip8(emu), "Stored Value 0x0F30 in register I")
+
+    def test_InputDXYN_Output(self):
+        emu = chip8.ChipEmu()
+        emu.pc = 0xD012
+        emu.vx['v0'] = 0x04
+        emu.vx['v1'] = 0x03
+        self.assertEqual(chip8.chip8(emu), "Drew 2-byte sprite at memory location I at 0x04, 0x03")
+
+        emu.pc = 0xD4EA
+        emu.vx['v4'] = 0xAF
+        emu.vx['ve'] = 0x27
+        self.assertEqual(chip8.chip8(emu), "Drew 10-byte sprite at memory location I at 0xAF, 0x27")
+
 
 if __name__ == "__main__":
     unittest.main()
