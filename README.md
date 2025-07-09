@@ -1,2 +1,2 @@
 # CHIP8-TDD
-CHIP-8 Emulator in Python
+WIP CHIP-8 Emulator in Python
