@@ -40,8 +40,17 @@ def main():
         if opcode & 0xF000 != 0x1000:
             chip8.update(emu)
 
+        if emu.draw_flag:
+            screen.fill("Black")
+            for y in range(32):
+                for x in range(64):
+                    if emu.display[y][x]:
+                        rect = pygame.Rect(x * SCALE, y * SCALE, SCALE, SCALE)
+                        pygame.draw.rect(screen, (255, 255, 255), rect)
+            emu.draw_flag = False
+        
         pygame.display.flip()
-        clock.tick(20)  # limits FPS to 60
+        clock.tick(60)  # limits FPS to 60
         
 if __name__ == "__main__":
     main()
